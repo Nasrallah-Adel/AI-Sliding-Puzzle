@@ -15,4 +15,5 @@ public class Node {
     int n[][] = new int[3][3];
     int cost;
     boolean opend;
+    int level;
 }
