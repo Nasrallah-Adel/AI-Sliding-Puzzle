@@ -37,14 +37,14 @@ public List<Node> solve(){
                 }
             }
         }
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0,a=1; i < 3; i++,a++) {
             for (int j = 0; j < 3; j++) {
-                System.out.print(start.n[i][j] + " ");
+               goal.n[i][j]=a;
 
             }
             System.out.println("");
 
         }
-
+  goal.n[2][2]=0;
     }
 }
