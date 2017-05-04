@@ -12,12 +12,13 @@ import java.util.List;
  * @author nasrallah
  */
 public class Solver {
-
+    
     static Node start = new Node();
     static Node goal = new Node();
-
+    static List<Node> all_childs = null;
+    
     public static List<Node> solve(Node n) {
-        List<Node> childs = null;
+        
         Node m = n;
         int a[][] = n.n;
         //position of zero
@@ -29,13 +30,13 @@ public class Solver {
                     zj = j;
                     break;
                 }
-
+                
             }
         }
-
+        
         if (zi + 1 <= 2) {
             replace(a, zi + 1, zj, zi, zj);
-
+            
         }
         a = n.n;
         if (zi - 1 >= 0) {
@@ -44,7 +45,7 @@ public class Solver {
         a = n.n;
         if (zj + 1 <= 2) {
             replace(a, zi, zj + 1, zi, zj);
-
+            
         }
         a = n.n;
         if (zj - 1 >= 0) {
@@ -54,26 +55,24 @@ public class Solver {
         for (int s = 0; s < 3; s++) {
             for (int q = 0; q < 3; q++) {
                 System.out.print(m.n[s][q] + " ");
-
+                
             }
             System.out.println("");
-
+            
         }
         System.out.println("");
-
-        return childs;
+        
+        return all_childs;
     }
-
+    
     static void replace(int[][] n, int i, int j, int zi, int zj) {
         int[][] m = new int[3][3];
         for (int s = 0; s < 3; s++) {
             for (int q = 0; q < 3; q++) {
                 m[s][q] = n[s][q];
-
+                
             }
-
-            Node c = new Node();
-
+            
         }
         int temp = m[i][j];
         m[i][j] = m[zi][zj];
@@ -81,20 +80,46 @@ public class Solver {
         for (int s = 0; s < 3; s++) {
             for (int q = 0; q < 3; q++) {
                 System.out.print(m[s][q] + " ");
-
+                
             }
             System.out.println("");
-
+            
         }
+        int cost = set_cost(m);
+        Node c = new Node();
+        c.n = m;
+        c.cost = cost;
+        all_childs.add(c);
         System.out.println("");
+        
     }
-
-    void set_cost(Node n) {
-
+    
+    static int set_cost(int[][] n) {
+        int sum = 0;
+        for (int s = 0; s < 3; s++) {
+            for (int q = 0; q < 3; q++) {
+                
+                for (int i = 0, a = 1; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        if (a == n[s][q]) {
+                            //  System.out.println(n[s][q] + "[" + s + " . " + q + "]  : " + Math.abs((s - i) + (q - j))+" a= "+a+ "[" + i + " . " + j + "]  : " );
+                            sum += Math.abs((s - i)) + Math.abs((q - j));
+                            
+                        }
+                        a++;
+                    }
+                    
+                }
+            }
+            
+        }
+        
+        System.out.println("sum = " + sum);
+        return sum;
     }
-
+    
     public static void main(String[] args) {
-
+        
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 start.n[i][j] = (int) (Math.random() * 9);
@@ -115,18 +140,19 @@ public class Solver {
         for (int s = 0; s < 3; s++) {
             for (int q = 0; q < 3; q++) {
                 System.out.print(start.n[s][q] + " ");
-
+                
             }
             System.out.println("");
-
+            
         }
+        System.out.println("");
         solve(start);
         for (int i = 0, a = 1; i < 3; i++, a++) {
             for (int j = 0; j < 3; j++) {
                 goal.n[i][j] = a;
-
+                
             }
-
+            
         }
         goal.n[2][2] = 0;
     }
