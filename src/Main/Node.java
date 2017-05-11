@@ -5,15 +5,15 @@ package Main;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author nasrallah
  */
 public class Node {
 
-    int n[][] = new int[3][3];
+    int n[][] = {{5, 1, 3}, {8, 2, 6}, {4, 0, 7}};
     int cost;
-    boolean opend;
-    int level;
+    boolean opend=false;
+   
+    Node parent=null;
 }

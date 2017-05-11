@@ -16,24 +16,50 @@ public class Solver {
 
     static Node start = new Node();
     static Node goal = new Node();
+    static Node parent = new Node();
     static List<Node> all_childs = new ArrayList<Node>();
     static List<Node> solve_track = new ArrayList<Node>();
-
-    static int level = 1;
+    static int g = 1;
+    static int[] dr = new int[]{0, -1, 0, 1}; // E,N,W,S
+    static int[] dc = new int[]{1, 0, -1, 0}; // R,U,L,D
 
     static Node get_min() {
         int min = 999999999;
         Node mn = new Node();
         for (Node e : all_childs) {
-            if (e.cost < min) {
+            //System.out.println("min loop : " + e + " cost " + e.cost);
 
+            if (e.cost < min) {
                 min = e.cost;
                 mn = e;
             }
-            System.out.print("current cost node " + e.cost + "  min " + min + " \n");
         }
+        //System.out.println("small cost is : " + mn.cost);
         return mn;
 
+    }
+
+    static boolean is_goal(Node n) {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (n.n[i][j] != goal.n[i][j]) {
+                    return false;
+                }
+
+            }
+        }
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(n.n[i][j] + " ");
+
+            }
+            System.out.println("");
+        }
+        System.out.println("");
+        System.out.println("");
+
+        System.out.println("congratulation");
+        return true;
     }
 
     static boolean is_exist(Node n) {
@@ -56,23 +82,43 @@ public class Solver {
         return false;
     }
 
-    static boolean is_goal(Node n) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (n.n[i][j] != goal.n[i][j]) {
-                    return false;
-                }
+    public static boolean opend(Node n) {
+
+        return n.opend;
+    }
+
+    static void swap(Node n, int i, int j, int zi, int zj) {
+        int[][] m = new int[3][3];
+        for (int s = 0; s < 3; s++) {
+            for (int q = 0; q < 3; q++) {
+                m[s][q] = n.n[s][q];
 
             }
+
         }
-        return true;
+        int temp = m[i][j];
+        m[i][j] = m[zi][zj];
+        m[zi][zj] = temp;
+        Node child = new Node();
+        child.n = m;
+        child.cost = set_h(m) + g;
+        child.parent = n;
+        if (!is_exist(child)) {
+            all_childs.add(child);
+        }
+
     }
 
     public static void get_child(Node n) {
+        if (n.opend) {
+            all_childs.remove(n);
+            return;
+        }
+        n.opend = true;
 //        List<Node> child= new ArrayList<Node>();
         // Node m = n;
-        int a[][] = n.n;
 
+        parent = n;
         int zi = -1, zj = -1;
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -85,75 +131,24 @@ public class Solver {
             }
         }
 
-        if (zi + 1 <= 2) {
-            replace(a, zi + 1, zj, zi, zj);
-
-        }
-        a = n.n;
-        if (zi - 1 >= 0) {
-            replace(a, zi - 1, zj, zi, zj);
-        }
-        a = n.n;
-        if (zj + 1 <= 2) {
-            replace(a, zi, zj + 1, zi, zj);
-
-        }
-        a = n.n;
-        if (zj - 1 >= 0) {
-            replace(a, zi, zj - 1, zi, zj);
-        }
-
-        for (int s = 0; s < 3; s++) {
-            for (int q = 0; q < 3; q++) {
-                System.out.print(n.n[s][q] + " ");
-
+        for (int i = 0; i < 4; i++) {
+            int new_i = zi + dr[i];
+            int new_j = zj + dc[i];
+            if (valid(new_i, new_j)) {
+                swap(n, new_i, new_j, zi, zj);
             }
-            System.out.println("");
-
         }
-        System.out.println("");
-        level++;
+
+        g++;
+        // again(get_min());
 //        return child;
     }
 
-    static void replace(int[][] n, int i, int j, int zi, int zj) {
-        int[][] m = new int[3][3];
-        for (int s = 0; s < 3; s++) {
-            for (int q = 0; q < 3; q++) {
-                m[s][q] = n[s][q];
-
-            }
-
-        }
-        int temp = m[i][j];
-        m[i][j] = m[zi][zj];
-        m[zi][zj] = temp;
-//        for (int s = 0; s < 3; s++) {
-//            for (int q = 0; q < 3; q++) {
-//                System.out.print(m[s][q] + " ");
-//
-//            }
-//            System.out.println("");
-//
-//        }
-        int cost = set_cost(m);
-        Node c = new Node();
-        c.n = m;
-        c.cost = cost;
-        c.level = level;
-        if (!is_exist(c)) {
-            System.out.println("not exist");
-            System.out.println(c.level);
-            all_childs.add(c);
-        } else {
-            System.out.println("exist");
-        }
-
-        System.out.println("");
-
+    static boolean valid(int r, int c) {
+        return 0 <= r && r < 3 && 0 <= c && c < 3;
     }
 
-    static int set_cost(int[][] n) {
+    static int set_h(int[][] n) {
         int sum = 0;
         for (int s = 0; s < 3; s++) {
             for (int q = 0; q < 3; q++) {
@@ -173,13 +168,13 @@ public class Solver {
 
         }
 
-        System.out.println("sum = " + sum);
-        return sum;
+        return (sum + g);
     }
- static void set_goal() {
-        for (int i = 0, a = 1; i < 3; i++, a++) {
+
+    static void set_goal() {
+        for (int i = 0, a = 1; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                goal.n[i][j] = a;
+                goal.n[i][j] = a++;
 
             }
 
@@ -187,47 +182,29 @@ public class Solver {
         goal.n[2][2] = 0;
     }
 
-    static void set_random() {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                start.n[i][j] = (int) (Math.random() * 9);
-                for (int a = 0; a <= i; a++) {
-                    for (int b = 0; b < 3; b++) {
-                        if (b == j && a == i) {
-                            break;
-                        }
-                        if (start.n[i][j] == start.n[a][b]) {
-                            j = b;
-                            i = a;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
     public static void main(String[] args) {
-
-        set_random();
         set_goal();
-        int cost = set_cost(start.n);
-        start.cost = cost;
-        for (int s = 0; s < 3; s++) {
-            for (int q = 0; q < 3; q++) {
-                System.out.print(start.n[s][q] + " ");
-
-            }
-            System.out.println("");
-        }
-
-        System.out.println("");
-        all_childs.add(start);
         get_child(start);
+        Node k = null;
+        while (!is_goal(get_min())) {
 
-        // start.cost=set_cost(start.n);
-        System.out.println(all_childs.size() + "  " + get_min().cost);
+            get_child(get_min());
 
+        }
+//        for (Node c : all_childs) {
+//            System.out.println("node : " + c);
+//
+//            System.out.println("cost " + c.cost);
+//            for (int i = 0; i < 3; i++) {
+//                for (int j = 0; j < 3; j++) {
+//                    System.out.print(c.n[i][j] + " ");
+//
+//                }
+//                System.out.println("");
+//            }
+//            System.out.println("");
+//            System.out.println("");
+//        }
     }
 
-   
 }
