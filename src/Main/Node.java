@@ -13,9 +13,9 @@ import java.util.List;
  * @author nasrallah
  */
 public class Node {
-
-    int n[][] = {{2,3,8}, {4,5,7}, {6,0,1}};
-    int cost=0;
+int n[][]={{0,5,2},{1,8,3},{4,7,6}};
+    //int n[][]=new int[3][3];
+    
     int f=0;
     boolean opend = false;
 

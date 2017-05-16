@@ -20,6 +20,7 @@ public class Solver1 {
     static Node current = new Node();
     static List<Node> openList = new ArrayList<Node>();
     static List<Node> closedlist = new ArrayList<Node>();
+     static List<Node> Path = new ArrayList<Node>();
     static int g = 0;
     static int[] dr = new int[]{0, -1, 0, 1}; // E,N,W,S
     static int[] dc = new int[]{1, 0, -1, 0}; // R,U,L,D
@@ -27,25 +28,17 @@ public class Solver1 {
     static String A_star() {
         start.f = set_h(start.n);
         openList.add(start);
-        
+
         while (openList.size() != 0) {
-            System.out.println(g);
-            System.out.println("openList.size() = "+openList.size());
-            System.out.println("closedlist.size() = "+closedlist.size());
+
             current = get_min();
             if (is_goal(current)) {
                 print_path(current);
                 return "congrat";
             }
-//              for (int i = 0; i < 3; i++) {
-//                for (int j = 0; j < 3; j++) {
-//                    System.out.print(current.n[i][j] + " ");
-//
-//                }
-//                System.out.println("");
-//              }
+
             openList.remove(current);
-            
+
             closedlist.add(current);
             get_child(current);
         }
@@ -108,7 +101,7 @@ public class Solver1 {
                 return true;
             }
         }
-        flag=0;
+        flag = 0;
         for (Node e : closedlist) {
             flag = 0;
             for (int i = 0; i < 3; i++) {
@@ -124,10 +117,10 @@ public class Solver1 {
                 return true;
             }
         }
-       
+
         return false;
     }
-   
+
     static void swap(Node n, int i, int j, int zi, int zj) {
         int[][] m = new int[3][3];
         for (int s = 0; s < 3; s++) {
@@ -142,7 +135,7 @@ public class Solver1 {
         m[zi][zj] = temp;
         Node child = new Node();
         child.n = m;
-        child.cost = set_h(m);
+       
         child.parent = n;
         child.f = set_h(child.n);
         if (!is_exist(child)) {
@@ -202,7 +195,7 @@ public class Solver1 {
 
         }
 
-        return (sum +g);
+        return (sum + g);
     }
 
     static void set_goal() {
@@ -217,6 +210,7 @@ public class Solver1 {
     }
 
     public static void main(String[] args) {
+       //set_random();
         set_goal();
         System.out.println(A_star());
     }
@@ -231,6 +225,7 @@ public class Solver1 {
                 System.out.println("");
 
             }
+            Path.add(current);
             current = current.parent;
             System.out.println("");
         }
@@ -242,6 +237,71 @@ public class Solver1 {
             System.out.println("");
 
         }
+        Path.add(current);
     }
 
+    static int[][] set_random() {
+        do {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    start.n[i][j] = (int) (Math.random() * 9);
+                    for (int a = 0; a <= i; a++) {
+                        for (int b = 0; b < 3; b++) {
+                            if (b == j && a == i) {
+                                break;
+                            }
+                            if (start.n[i][j] == start.n[a][b]) {
+                                j = b;
+                                i = a;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        } while (!isSolvable(start.n));
+        System.out.println(isSolvable(start.n));
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                System.out.print(start.n[i][j] + " ");
+
+            }
+            System.out.println("");
+
+        }
+        return start.n;
+    }
+    // A utility function to count inversions in given array 'arr[]'
+
+// This function returns true if given 8 puzzle is solvable.
+    public static boolean isSolvable(int[][] n) {
+        int p[] = new int[9];
+        for (int i = 0, a = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+
+                p[a++] = n[i][j];
+            }
+
+        }
+        int inversions = 0;
+
+        for (int i = 0; i < 9 - 1; i++) {
+            // Check if a larger number exists after the current
+            // place in the array, if so increment inversions.
+            for (int j = i + 1; j < 9; j++) {
+                if (p[i] > p[j]) {
+                    inversions++;
+                }
+            }
+
+            // Determine if the distance of the blank space from the bottom 
+            // right is even or odd, and increment inversions if it is odd.
+            if (p[i] == 0 && i % 2 == 1) {
+                inversions++;
+            }
+        }
+
+        // If inversions is even, the puzzle is solvable.
+        return (inversions % 2 == 0);
+    }
 }
