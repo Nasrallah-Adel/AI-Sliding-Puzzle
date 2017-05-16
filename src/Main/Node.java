@@ -1,5 +1,8 @@
 package Main;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -11,9 +14,11 @@ package Main;
  */
 public class Node {
 
-    int n[][] = {{5, 1, 3}, {8, 2, 6}, {4, 0, 7}};
-    int cost;
-    boolean opend=false;
-   
-    Node parent=null;
+    int n[][] = {{2,3,8}, {4,5,7}, {6,0,1}};
+    int cost=0;
+    int f=0;
+    boolean opend = false;
+
+    Node parent = null;
+    
 }

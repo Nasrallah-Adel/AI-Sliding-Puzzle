@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author nasrallah
  */
-public class Solver {
+public class Solver1 {
 
     static Node start = new Node();
     static Node goal = new Node();
@@ -27,30 +27,30 @@ public class Solver {
     static String A_star() {
         start.f = set_h(start.n);
         openList.add(start);
-
-        while (true) {
+        
+        while (openList.size() != 0) {
             System.out.println(g);
-            System.out.println("openList.size() = " + openList.size());
-            System.out.println("closedlist.size() = " + closedlist.size());
+            System.out.println("openList.size() = "+openList.size());
+            System.out.println("closedlist.size() = "+closedlist.size());
             current = get_min();
             if (is_goal(current)) {
                 print_path(current);
                 return "congrat";
             }
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-                    System.out.print(current.n[i][j] + " ");
-
-                }
-                System.out.println("");
-            }
-            openList.clear();
-
+//              for (int i = 0; i < 3; i++) {
+//                for (int j = 0; j < 3; j++) {
+//                    System.out.print(current.n[i][j] + " ");
+//
+//                }
+//                System.out.println("");
+//              }
+            openList.remove(current);
+            
             closedlist.add(current);
             get_child(current);
         }
 
-//        return "fail";
+        return "fail";
     }
 
     static Node get_min() {
@@ -108,7 +108,7 @@ public class Solver {
                 return true;
             }
         }
-        flag = 0;
+        flag=0;
         for (Node e : closedlist) {
             flag = 0;
             for (int i = 0; i < 3; i++) {
@@ -124,10 +124,10 @@ public class Solver {
                 return true;
             }
         }
-
+       
         return false;
     }
-
+   
     static void swap(Node n, int i, int j, int zi, int zj) {
         int[][] m = new int[3][3];
         for (int s = 0; s < 3; s++) {
@@ -142,7 +142,7 @@ public class Solver {
         m[zi][zj] = temp;
         Node child = new Node();
         child.n = m;
-        child.cost = set_h(m) + g;
+        child.cost = set_h(m);
         child.parent = n;
         child.f = set_h(child.n);
         if (!is_exist(child)) {
@@ -202,7 +202,7 @@ public class Solver {
 
         }
 
-        return (sum);
+        return (sum +g);
     }
 
     static void set_goal() {
