@@ -5,10 +5,14 @@
  */
 package Main;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.Timer;
 
 /**
  *
@@ -27,6 +31,7 @@ public class SlidingPuzzle extends javax.swing.JFrame {
         initComponents();
         s.set_goal();
         s.A_star();
+        s.set_random();
         for (int i = 0; i < 9; i++) {
             jLabel[i] = new JLabel();
         }
@@ -76,19 +81,19 @@ public class SlidingPuzzle extends javax.swing.JFrame {
         jLabel[5].setPreferredSize(new java.awt.Dimension(154, 154));
         jPanel1.add(jLabel[5], new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 180, 150, -1));
 
-        jLabel[6].setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/8.png"))); // NOI18N
-        jLabel[6].setText("jLabel[1]");
-        jLabel[6].setMaximumSize(new java.awt.Dimension(125, 125));
-        jLabel[6].setMinimumSize(new java.awt.Dimension(125, 125));
-        jLabel[6].setPreferredSize(new java.awt.Dimension(154, 154));
-        jPanel1.add(jLabel[6], new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 160, -1));
-
-        jLabel[7].setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/7.png"))); // NOI18N
-        jLabel[7].setText("jLabel[2]");
+        jLabel[7].setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/8.png"))); // NOI18N
+        jLabel[7].setText("jLabel[1]");
         jLabel[7].setMaximumSize(new java.awt.Dimension(125, 125));
         jLabel[7].setMinimumSize(new java.awt.Dimension(125, 125));
         jLabel[7].setPreferredSize(new java.awt.Dimension(154, 154));
-        jPanel1.add(jLabel[7], new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 150, -1));
+        jPanel1.add(jLabel[7], new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 330, 160, -1));
+
+        jLabel[6].setIcon(new javax.swing.ImageIcon(getClass().getResource("/Main/7.png"))); // NOI18N
+        jLabel[6].setText("jLabel[2]");
+        jLabel[6].setMaximumSize(new java.awt.Dimension(125, 125));
+        jLabel[6].setMinimumSize(new java.awt.Dimension(125, 125));
+        jLabel[6].setPreferredSize(new java.awt.Dimension(154, 154));
+        jPanel1.add(jLabel[6], new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 330, 150, -1));
 
         jLabel[8].setBackground(new java.awt.Color(51, 102, 255));
         jLabel[8].setForeground(new java.awt.Color(0, 51, 255));
@@ -106,7 +111,6 @@ public class SlidingPuzzle extends javax.swing.JFrame {
             for (int j = 0; j < 3; j++) {
 
                 iconLogo = new ImageIcon("/media/nasrallah/main1/FCI/SECOND TERM/المواد/AI/project/AI-Sliding-Puzzle/src/Main/" + (s.start.n[i][j]) + ".png");
-
                 jLabel[a++].setIcon(iconLogo);
 
             }
@@ -131,6 +135,8 @@ public class SlidingPuzzle extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -197,18 +203,39 @@ public class SlidingPuzzle extends javax.swing.JFrame {
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
+
+        jLabel1.setBackground(new java.awt.Color(255, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(153, 0, 0));
+        jLabel1.setText("8 Puzzel Problem Solved By A* search algorithm ");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel2.setText("Implemented  by (Nasrallah Adel Nasrallah )  #be_happy :-D ");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 881, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 833, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 676, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(58, 58, 58)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 99, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -217,10 +244,16 @@ public class SlidingPuzzle extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 486, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, 0)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,30 +270,57 @@ public class SlidingPuzzle extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        set();
+        Runnable v = new Runnable() {
+            @Override
+            public void run() {
+                s.set_random();
+                
+                set();
+            }
+
+        };
+        Thread d = new Thread(v);
+        d.start();
+
+
     }//GEN-LAST:event_jButton2ActionPerformed
-
+    ImageIcon iconLogo;
+    int z;
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        try {
-            System.out.println(s.Path.size());
-            Thread.sleep(15);
-            for (int z = s.Path.size()-1; z >= 0; z++) {
-                ImageIcon iconLogo;
-                for (int i = 0, a = 0; i < 3; i++) {
-                    for (int j = 0; j < 3; j++) {
 
-                        iconLogo = new ImageIcon("/media/nasrallah/main1/FCI/SECOND TERM/المواد/AI/project/AI-Sliding-Puzzle/src/Main/" + (s.Path.get(z).n[i][j]) + ".png");
-
-                        jLabel[a++].setIcon(iconLogo);
-
+        System.out.println(s.Path.size() - 1);
+        Runnable v = new Runnable() {
+            @Override
+            public void run() {
+                s.A_star();
+                for (z = (s.Path.size() - 1); z >= 0; z--) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SlidingPuzzle.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    for (int i = 0, a = 0; i < 3; i++) {
+                        for (int j = 0; j < 3; j++) {
+
+                            System.out.print(s.Path.get(z).n[i][j]);
+                            iconLogo = new ImageIcon("/media/nasrallah/main1/FCI/SECOND TERM/المواد/AI/project/AI-Sliding-Puzzle/src/Main/" + (s.Path.get(z).n[i][j]) + ".png");
+
+                            jLabel[a++].setIcon(iconLogo);
+
+                        }
+                        System.out.println("");
+                    }
+                    System.out.println("");
                     System.out.println("");
                 }
             }
-            // TODO add your handling code here:
-        } catch (InterruptedException ex) {
-            ex.printStackTrace();
-        }
+
+        };
+        Thread d = new Thread(v);
+        d.start();
+
+        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -309,7 +369,9 @@ public class SlidingPuzzle extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

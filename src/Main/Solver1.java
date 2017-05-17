@@ -26,6 +26,7 @@ public class Solver1 {
     static int[] dc = new int[]{1, 0, -1, 0}; // R,U,L,D
 
     static String A_star() {
+        Path.clear();
         start.f = set_h(start.n);
         openList.add(start);
 
@@ -238,6 +239,7 @@ public class Solver1 {
 
         }
         Path.add(current);
+        
     }
 
     static int[][] set_random() {
